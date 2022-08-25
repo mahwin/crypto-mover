@@ -21,13 +21,13 @@ export default function Layout({
   const onClick = () => {
     router.back();
   };
-  // "bg-white grid items-center py-3 max-w-2xl text-lg font-medium text-gray-800 border-b fixed w-full"
+  // "bg-white items-center py-3 max-w-2xl text-lg font-medium text-gray-800 border-b fixed w-full"
   return (
     <div className="relative w-full">
       <div
         className={cls(
           !canGoBack ? "justify-center" : "",
-          "flex bg-white py-3 fixed right-0 left-0 w-full"
+          "flex bg-white py-3 fixed w-full border-b"
         )}
       >
         {canGoBack ? (
@@ -49,18 +49,18 @@ export default function Layout({
           </button>
         ) : null}
         {title ? (
-          <div className="flex flex-1 max-w-2xl ml-3">{title}</div>
+          <div className="flex flex-1 text-lg max-w-2xl ml-3  ">{title}</div>
         ) : null}
 
         {!noUserid ? (
           <div className="flex text-gray-700 text-sm justify-evenly space-x-10  items-center mr-3">
             <Link href={`/signIn`}>
-              <a className="hover:border-b-2 hover:border-orange-300 hover:font-bold">
+              <a className="hover:border-b-2 hover:border-blue-500 hover:font-bold">
                 로그인
               </a>
             </Link>
             <Link href={`/signIn`}>
-              <a className="hover:border-b-2 hover:border-orange-300 hover:font-bold">
+              <a className="hover:border-b-2 hover:border-blue-500 hover:font-bold">
                 회원가입
               </a>
             </Link>
