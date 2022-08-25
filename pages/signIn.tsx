@@ -4,6 +4,7 @@ import { cls } from "@libs/client/utils";
 import Button from "@components/button";
 import Input from "@components/input";
 import { useForm } from "react-hook-form";
+import useMutation from "@libs/client/useMutation";
 
 interface EnterForm {
   email?: string;
@@ -17,27 +18,41 @@ interface TokenForm {
 interface MutationResult {
   ok: boolean;
 }
+interface InputError {
+  phone?: { type: string; message: string };
+  email?: { type: string; message: string };
+}
 
 const Enter: NextPage = () => {
+  const [enter, { loading, data, error }] =
+    useMutation<MutationResult>("/api/users/signIn");
   const { register, reset, handleSubmit } = useForm<EnterForm>();
   const [isEmail, setIsEmail] = useState<boolean>(true);
   const [isfold, setIsfold] = useState<boolean>(true);
-
+  const [inputError, setInputError] = useState<InputError | null>(null);
   const changeFormClick = (event: any) => {
     setIsEmail((prev) => {
       if (event.target.name === "email") return true;
       return false;
     });
     reset();
+    setInputError(null);
   };
 
   const changeFold = () => {
     setIsfold(!isfold);
+    setInputError(null);
   };
 
-  const onValid = (data: EnterForm) => {
-    console.log(data);
+  const onValid = (formData: EnterForm) => {
+    console.log(formData);
+    enter(formData);
+    if (loading) return;
   };
+  const InValid = (data: any) => {
+    setInputError(data);
+  };
+
   return (
     <div className="flex w-full h-full justify-center items-center">
       <div className="mt-16 px-4 max-w-lg border-2 rounded-lg border-gray-300 p-3">
@@ -74,29 +89,50 @@ const Enter: NextPage = () => {
               </button>
             </div>
           </div>
-          <form className="flex flex-col mt-4" onSubmit={handleSubmit(onValid)}>
+          <form
+            className="flex flex-col mt-4"
+            onSubmit={handleSubmit(onValid, InValid)}
+          >
             <div className="my-2">
               {isEmail ? (
-                <Input
-                  register={register("email", { required: true })}
-                  placeholder="user@example.com"
-                  name="email"
-                  label="Email address"
-                  type="email"
-                  required
-                />
+                <>
+                  <Input
+                    register={register("email", { required: true })}
+                    placeholder="user@example.com"
+                    name="email"
+                    label="Email address"
+                    type="email"
+                    required
+                  />
+                  {inputError && <p>{inputError.email?.message} </p>}
+                </>
               ) : (
-                <Input
-                  register={register("phone", {
-                    required: true,
-                  })}
-                  placeholder="01012345678"
-                  name="phone"
-                  label="Phone number"
-                  type="number"
-                  kind="phone"
-                  required
-                />
+                <>
+                  <Input
+                    register={register("phone", {
+                      required: true,
+                      minLength: {
+                        value: 11,
+                        message: "전화번호 입력 형식은 01012345678입니다!",
+                      },
+                      maxLength: {
+                        value: 11,
+                        message: "전화번호 입력 형식은 01012345678입니다!",
+                      },
+                    })}
+                    placeholder="01012345678"
+                    name="phone"
+                    label="Phone number"
+                    type="number"
+                    kind="phone"
+                    required
+                  />
+                  {inputError && (
+                    <p className="mt-2 text-sm text-red-400">
+                      {inputError.phone?.message}
+                    </p>
+                  )}
+                </>
               )}
             </div>
             <Button text={"Login"} />
@@ -122,8 +158,8 @@ const Enter: NextPage = () => {
                     className="w-6 h-6"
                   >
                     <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                       d="M19.5 8.25l-7.5 7.5-7.5-7.5"
                     />
                   </svg>
@@ -142,9 +178,9 @@ const Enter: NextPage = () => {
                       className="w-6 h-6"
                     >
                       <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M4.5 15.75l7.5-7.5 7.5 7.5"
                       />
                     </svg>
                   </button>
