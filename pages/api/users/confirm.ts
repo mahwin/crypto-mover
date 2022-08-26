@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import withHandler, { ResponseType } from "@libs/server/withHandler";
 import client from "@libs/server/client";
 
-import { withIronSessionApiRoute } from "iron-session/next";
+import { withApiSession } from "@libs/server/withSession";
 
 declare module "iron-session" {
   interface IronSessionData {
@@ -27,13 +27,9 @@ async function handler(
   req.session.user = { id: exists.userId };
 
   await req.session.save();
-  res.status(200).end();
+  res.json({ ok: true });
 }
 
-export default withIronSessionApiRoute(
-  withHandler({ methods: ["POST"], handler, isPrivate: false }),
-  {
-    cookieName: "crypto",
-    password: process.env.COOKIE_PASSWORD!,
-  }
+export default withApiSession(
+  withHandler({ methods: ["POST"], handler, isPrivate: false })
 );
