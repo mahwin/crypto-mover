@@ -27,6 +27,12 @@ async function handler(
   req.session.user = { id: exists.userId };
 
   await req.session.save();
+  await client.token.deleteMany({
+    where: {
+      userId: exists.userId,
+    },
+  });
+
   res.json({ ok: true });
 }
 
