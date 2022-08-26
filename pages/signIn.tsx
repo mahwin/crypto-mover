@@ -69,6 +69,7 @@ const Enter: NextPage = () => {
     confirm(validForm);
   };
   const router = useRouter();
+
   useEffect(() => {
     if (tokenData?.ok) {
       router.push("/");
