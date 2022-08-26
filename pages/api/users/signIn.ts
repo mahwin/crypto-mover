@@ -30,18 +30,18 @@ async function handler(
       },
     },
   });
-  if (phone) {
-    const message = await twilioClient.messages.create({
-      messagingServiceSid: process.env.TWILIO_MSID,
-      to: "82" + phone.slice(1),
-      body: `인증 번호는 : ${payload} 입니다.`,
-    });
-    console.log(message);
-  } else if (email) {
-    //나중에 추가
-  }
+  // if (phone) {
+  //   const message = await twilioClient.messages.create({
+  //     messagingServiceSid: process.env.TWILIO_MSID,
+  //     to: "82" + phone.slice(1),
+  //     body: `인증 번호는 : ${payload} 입니다.`,
+  //   });
+  // } else if (email) {
+  //   //나중에 추가
+  // }
   return res.json({
     ok: true,
+    payload,
   });
 }
 
