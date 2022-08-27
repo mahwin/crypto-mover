@@ -12,7 +12,7 @@ const Home: NextPage = () => {
   return (
     <Layout title="Community" hasTabBar={true} seoTitle="커뮤니티">
       <h1 className="text-gray-800 font-bold text-[2rem] mt-3">커뮤니티</h1>
-      <FloatingButton href={"none"}>
+      <FloatingButton href={"/community/write"}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
