@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import Link from "next/link";
 import Layout from "@components/layout";
 import useUser from "@libs/client/useUser";
 import { Fragment } from "react";
@@ -49,13 +50,13 @@ const Home: NextPage = () => {
             </tr>
           </thead>
           <tbody className="border-t text-[1px] odd:bg-black">
-            {articles.map((article, i) => {
+            {articles.map((article) => {
               return (
-                <Fragment key={i}>
+                <Link key={article.id} href={`/community/${article.id}`}>
                   <tr className="border-b hover:bg-gray-100 cursor-pointer ">
                     <th
                       scope="row"
-                      className="py-1 px-2 font-bold text-gray-900 whitespace-nowrap "
+                      className="py-1 px-2 font-bold text-[0.7rem] text-gray-900 whitespace-nowrap "
                     >
                       {article.title.length > 25
                         ? article.title.slice(0, 25) + "..."
@@ -69,13 +70,13 @@ const Home: NextPage = () => {
                     <td
                       className={cls(
                         "py-1",
-                        +article.liked > 50 ? "text-red-400" : ""
+                        +article.liked > 50 ? "text-red-600" : ""
                       )}
                     >
                       {article.liked}
                     </td>
                   </tr>
-                </Fragment>
+                </Link>
               );
             })}
           </tbody>
@@ -89,6 +90,7 @@ export default Home;
 
 const articles = [
   {
+    id: 1,
     title: 'BTS 공연 날짜 뜨자 "2박 890만원"..부산 호텔들 예약 취소 통보 뭇매',
     user: "누눈나난",
     date: "11시간 전",
@@ -96,6 +98,7 @@ const articles = [
     liked: "30",
   },
   {
+    id: 2,
     title: "호불호 갈리는 케이크203",
     user: "천러러러",
     date: "2시간 전",
@@ -103,6 +106,7 @@ const articles = [
     liked: "128",
   },
   {
+    id: 3,
     title: "의외로 아이돌 모임 '97라인'에 들어가있는 사람",
     user: "helloworld1",
     date: "7시간 전",
@@ -110,6 +114,7 @@ const articles = [
     liked: "56",
   },
   {
+    id: 4,
     title: 'BTS 공연 날짜 뜨자 "2박 890만원"..부산 호텔들 예약 취소 통보 뭇매',
     user: "중 천러",
     date: "11시간 전",
@@ -117,6 +122,7 @@ const articles = [
     liked: "19",
   },
   {
+    id: 5,
     title: "너무배고파요! 연어초밥 좀 주세요",
     user: "비비의주인",
     date: "10시간 전",
@@ -124,6 +130,7 @@ const articles = [
     liked: "73",
   },
   {
+    id: 6,
     title: 'BTS 공연 날짜 뜨자 "2박 890만원"..부산 호텔들 예약 취소 통보 뭇매',
     user: "누눈나난",
     date: "11시간 전",
@@ -131,6 +138,7 @@ const articles = [
     liked: "30",
   },
   {
+    id: 7,
     title: "호불호 갈리는 케이크203",
     user: "천러러러",
     date: "2시간 전",
@@ -138,6 +146,7 @@ const articles = [
     liked: "128",
   },
   {
+    id: 8,
     title: "의외로 아이돌 모임 '97라인'에 들어가있는 사람",
     user: "helloworld1",
     date: "7시간 전",
@@ -145,6 +154,7 @@ const articles = [
     liked: "56",
   },
   {
+    id: 9,
     title: 'BTS 공연 날짜 뜨자 "2박 890만원"..부산 호텔들 예약 취소 통보 뭇매',
     user: "중 천러",
     date: "11시간 전",
@@ -152,6 +162,7 @@ const articles = [
     liked: "19",
   },
   {
+    id: 10,
     title: "너무배고파요! 연어초밥 좀 주세요",
     user: "비비의주인",
     date: "10시간 전",
