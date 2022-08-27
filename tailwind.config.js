@@ -5,6 +5,9 @@ module.exports = {
     "./libs/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
+    fontSize: {
+      xs: ".5rem",
+    },
     extend: {},
   },
   plugins: [],

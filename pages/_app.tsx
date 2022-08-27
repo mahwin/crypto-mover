@@ -6,7 +6,9 @@ import { fetcher } from "@libs/client/useUser";
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <SWRConfig value={{ fetcher }}>
-      <Component {...pageProps} />
+      <div className="w-full m-auto max-w-3xl">
+        <Component {...pageProps} />
+      </div>
     </SWRConfig>
   );
 }

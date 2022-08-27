@@ -22,11 +22,12 @@ async function handler(
       payload: token,
     },
   });
-  if (!exists) return res.status(404).end();
+  if (!exists) return res.json({ ok: false });
 
   req.session.user = { id: exists.userId };
 
   await req.session.save();
+
   await client.token.deleteMany({
     where: {
       userId: exists.userId,

@@ -2,36 +2,41 @@ import React from "react";
 import Link from "next/link";
 import { cls } from "@libs/client/utils";
 import { useRouter } from "next/router";
-
-const noUserid = false;
+import Head from "next/head";
+import useUser from "@libs/client/useUser";
 
 interface LayoutProps {
   title?: string;
   canGoBack?: boolean;
   hasTabBar?: boolean;
   children: React.ReactNode;
+  seoTitle?: string;
 }
+
 export default function Layout({
   title,
   canGoBack,
   hasTabBar,
   children,
+  seoTitle,
 }: LayoutProps) {
   const router = useRouter();
   const onClick = () => {
     router.back();
   };
-  // "bg-white items-center py-3 max-w-2xl text-lg font-medium text-gray-800 border-b fixed w-full"
+  const { user, isLoading } = useUser();
+
+  const logoutClick = () => {
+    fetch("/api/users/signOut");
+  };
   return (
-    <div className="relative w-full">
-      <div
-        className={cls(
-          !canGoBack ? "justify-center" : "",
-          "flex bg-white py-3 fixed w-full border-b"
-        )}
-      >
+    <div>
+      <Head>
+        <title>{seoTitle} | Crypto Mover</title>
+      </Head>
+      <div className="bg-white w-full h-12 max-w-3xl justify-center text-lg px-10 font-medium  fixed text-gray-800 border-b top-0  flex items-center z-10">
         {canGoBack ? (
-          <button onClick={onClick}>
+          <button onClick={onClick} className="absolute left-4">
             <svg
               className="w-6 h-6"
               fill="none"
@@ -49,30 +54,47 @@ export default function Layout({
           </button>
         ) : null}
         {title ? (
-          <div className="flex flex-1 text-lg max-w-2xl ml-3  ">{title}</div>
+          <span className={cls(canGoBack ? "mx-auto" : "", "")}>{title}</span>
         ) : null}
-
-        {!noUserid ? (
-          <div className="flex text-gray-700 text-sm justify-evenly space-x-10  items-center mr-3">
-            <Link href={`/signIn`}>
-              <a className="hover:border-b-2 hover:border-blue-500 hover:font-bold">
+        {user ? (
+          <nav className="absolute right-10 space-x-5 text-gray-600 text-sm">
+            <Link href={"none"}>
+              <a className="cursor-pointer hover:border-blue-500 hover:border-b-2 p-1 hover:text-gray-500">
+                내정보
+              </a>
+            </Link>
+            <button
+              onClick={logoutClick}
+              className="cursor-pointer hover:border-blue-500 hover:border-b-2 p-1 hover:text-gray-500"
+            >
+              로그아웃
+            </button>
+          </nav>
+        ) : (
+          <nav className="absolute right-10 space-x-5 text-gray-600 text-sm">
+            <Link href="/signIn">
+              <a className="cursor-pointer hover:border-blue-500 hover:border-b-2 p-1 hover:text-gray-500">
                 로그인
               </a>
             </Link>
-            <Link href={`/signIn`}>
-              <a className="hover:border-b-2 hover:border-blue-500 hover:font-bold">
-                회원가입
-              </a>
-            </Link>
-          </div>
-        ) : null}
+            <span className="cursor-pointer hover:border-blue-500 hover:border-b-2 p-1 hover:text-gray-500">
+              회원가입
+            </span>
+          </nav>
+        )}
       </div>
-
       <div className={cls("pt-12", hasTabBar ? "pb-24" : "")}>{children}</div>
       {hasTabBar ? (
-        <nav className="bg-white max-w-2xl fixed text-gray-700 border-t bottom-0 w-full px-10 pb-5 pt-3 flex justify-between text-xs">
+        <nav className="bg-white max-w-3xl text-gray-700 border-t fixed bottom-0 w-full px-10 pb-5 pt-3 flex justify-between text-xs">
           <Link href="/">
-            <a className="flex flex-col items-center space-y-2">
+            <a
+              className={cls(
+                "flex flex-col items-center space-y-2 ",
+                router.pathname === "/"
+                  ? "text-blue-500"
+                  : "hover:text-gray-500 transition-colors"
+              )}
+            >
               <svg
                 className="w-6 h-6"
                 fill="none"
@@ -91,7 +113,14 @@ export default function Layout({
             </a>
           </Link>
           <Link href="/community">
-            <a className="flex flex-col items-center space-y-2">
+            <a
+              className={cls(
+                "flex flex-col items-center space-y-2 ",
+                router.pathname === "/community"
+                  ? "text-blue-500"
+                  : "hover:text-gray-500 transition-colors"
+              )}
+            >
               <svg
                 className="w-6 h-6"
                 fill="none"
@@ -106,11 +135,18 @@ export default function Layout({
                   d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"
                 ></path>
               </svg>
-              <span>채팅</span>
+              <span>커뮤니티</span>
             </a>
           </Link>
           <Link href="/chats">
-            <a className="flex flex-col items-center space-y-2">
+            <a
+              className={cls(
+                "flex flex-col items-center space-y-2 ",
+                router.pathname === "/chats"
+                  ? "text-blue-500"
+                  : "hover:text-gray-500 transition-colors"
+              )}
+            >
               <svg
                 className="w-6 h-6"
                 fill="none"
@@ -128,9 +164,41 @@ export default function Layout({
               <span>채팅</span>
             </a>
           </Link>
-
+          <Link href="/streams">
+            <a
+              className={cls(
+                "flex flex-col items-center space-y-2 ",
+                router.pathname === "/streams"
+                  ? "text-blue-500"
+                  : "hover:text-gray-500 transition-colors"
+              )}
+            >
+              <svg
+                className="w-6 h-6 flex items-center ju"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M10 12l-2.9-3-4.1 4v5h14v-13.1z"
+                ></path>
+              </svg>
+              <span>라이브 차트</span>
+            </a>
+          </Link>
           <Link href="/profile">
-            <a className="flex flex-col items-center space-y-2">
+            <a
+              className={cls(
+                "flex flex-col items-center space-y-2 ",
+                router.pathname === "/profile"
+                  ? "text-blue-500"
+                  : "hover:text-gray-500 transition-colors"
+              )}
+            >
               <svg
                 className="w-6 h-6"
                 fill="none"
@@ -145,7 +213,7 @@ export default function Layout({
                   d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
                 ></path>
               </svg>
-              <span>내 정보</span>
+              <span>내정보</span>
             </a>
           </Link>
         </nav>

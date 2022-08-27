@@ -68,11 +68,12 @@ const Enter: NextPage = () => {
     if (tokenLoading) return;
     confirm(validForm);
   };
+
   const router = useRouter();
 
   useEffect(() => {
     if (tokenData?.ok) {
-      router.push("/");
+      router.replace("/");
     }
   }, [tokenData, router]);
 
@@ -128,6 +129,11 @@ const Enter: NextPage = () => {
                   required
                 />
                 <Button text={tokenLoading ? "Loading..." : "Login"} />
+                {tokenData && !tokenData?.ok ? (
+                  <span className="mt-3 text-sm text-red-400">
+                    토큰 번호가 일치하지 않습니다.
+                  </span>
+                ) : null}
               </form>
               <div className="grid grid-cols-2 mt-3 gap-2 text-gray-500">
                 <button className="hover:text-gray-400">Re-Send</button>
