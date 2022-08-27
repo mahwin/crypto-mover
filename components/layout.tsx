@@ -58,7 +58,7 @@ export default function Layout({
         ) : null}
         {user ? (
           <nav className="absolute right-10 space-x-5 text-gray-600 text-sm">
-            <Link href={"none"}>
+            <Link href={"/me"}>
               <a className="cursor-pointer hover:border-blue-500 hover:border-b-2 p-1 hover:text-gray-500">
                 내정보
               </a>
@@ -190,7 +190,7 @@ export default function Layout({
               <span>라이브 차트</span>
             </a>
           </Link>
-          <Link href="/profile">
+          <Link href="/me">
             <a
               className={cls(
                 "flex flex-col items-center space-y-2 ",

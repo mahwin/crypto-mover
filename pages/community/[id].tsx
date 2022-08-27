@@ -26,12 +26,23 @@ const CommunityPost: NextPage = () => {
   const [data, SetData] = useState<PostData | null>(null);
   const { user, isLoading } = useUser();
   const router = useRouter();
+
   useEffect(() => {
     const target = articles.filter(
       (article) => article.id + "" === router.query.id
     );
     SetData(target[0]);
   }, [router]);
+
+  // const [toggleFav] = useMutation(`/api/products/${router.query.id}/fav`);
+
+  // const onlikeClick = () => {
+  //   if (!data) return;
+  //   boundMutate((prev) => prev && { ...prev, isLiked: !prev.isLiked }, false);
+  //   // mutate("/api/users/me", (prev: any) => ({ ok: !prev.ok }), false);
+  //   toggleFav({});
+  // };
+  // };
   return (
     <Layout
       title="Community"
@@ -40,26 +51,24 @@ const CommunityPost: NextPage = () => {
       seoTitle="커뮤니티"
     >
       <FloatingButton href={"/community/write"}>
-        <FloatingButton href={"none"}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            className="w-6 h-6"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
-            />
-          </svg>
-        </FloatingButton>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          className="w-6 h-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
+          />
+        </svg>
       </FloatingButton>
       {data ? (
         <>
-          <header className="h-full">
+          <header className="h-full relative">
             <Link href={router.asPath}>
               <a className="mt-3 mb-1 hover:text-blue-500 hover:underline hover:underline-offset-1 inline-block cursor-pointer">
                 {data.title}
@@ -109,6 +118,22 @@ const CommunityPost: NextPage = () => {
             </div>
 
             <p>{data.content}</p>
+            <span className="absolute top-5 right-5 text-gray-500 hover:text-red-500">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill={true ? "red" : "red"}
+                viewBox="0 1.5 24 24"
+                strokeWidth="2"
+                stroke={true ? "none" : "currentColor"}
+                className="w-6 h-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M21 7.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+                />
+              </svg>
+            </span>
           </header>
         </>
       ) : null}
