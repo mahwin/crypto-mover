@@ -41,7 +41,6 @@ async function handler(
   // }
   return res.json({
     ok: true,
-    payload,
   });
 }
 

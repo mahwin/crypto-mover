@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Layout from "@components/layout";
 import useUser from "@libs/client/useUser";
-import FloatingButton from "@components/floating-button";
+import useMutation from "@libs/client/useMutation";
 import Image from "next/image";
 import Input from "@components/input";
 import userImage from "../public/user.png";
@@ -12,6 +12,9 @@ const Home: NextPage = () => {
   const { user, isLoading } = useUser();
   const router = useRouter();
   const { register, handleSubmit } = useForm();
+  const { data, loading } = useMutation(`/api/me`);
+  console.log(data);
+
   useEffect(() => {
     if (!isLoading && !user.id) router.replace("/signIn");
   }, [isLoading]);
@@ -40,8 +43,8 @@ const Home: NextPage = () => {
                     className="h-8 w-8"
                   >
                     <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                       d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
                     />
                   </svg>
@@ -62,9 +65,33 @@ const Home: NextPage = () => {
                     중복
                   </button>
                 </div>
-                <Input label="이메일" kind="text" color="green" />
-                <Input label="전화번호" kind="phone" color="green" />
-                <Input label="가입일자" kind="text" color="green" />
+                <Input
+                  label="이메일"
+                  kind="text"
+                  type="text"
+                  name="email"
+                  color="green"
+                  required={true}
+                  register={register("text")}
+                />
+                <Input
+                  label="전화번호"
+                  kind="text"
+                  type="phone"
+                  name="phone"
+                  color="green"
+                  required={true}
+                  register={register("phone")}
+                />
+                <Input
+                  label="생성일"
+                  kind="text"
+                  type="text"
+                  name="date"
+                  color="green"
+                  required={true}
+                  register={register("date")}
+                />
               </div>
               <div className="flex justify-center items-center p-3">
                 <div className="w-[400px] mt-1 flex gap-3">
