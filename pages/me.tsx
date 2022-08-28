@@ -12,8 +12,8 @@ const Home: NextPage = () => {
   const { user, isLoading } = useUser();
   const router = useRouter();
   const { register, handleSubmit } = useForm();
-  const { data, loading } = useMutation(`/api/me`);
-  console.log(data);
+
+  // const { data, loading } = useMutation(`/api/me`);
 
   useEffect(() => {
     if (!isLoading && !user.id) router.replace("/signIn");
