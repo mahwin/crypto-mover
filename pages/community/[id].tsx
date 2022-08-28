@@ -137,11 +137,92 @@ const CommunityPost: NextPage = () => {
           </header>
         </>
       ) : null}
+      {answers ? (
+        <>
+          <hr className="my-[20px] bg-cyan-700" />
+          <div className="mt-3 divide-y-[1px]">
+            {answers.map((answer) => (
+              <Fragment key={answer.id}>
+                <div className="flex border-spacing-2">
+                  <div className="p-3">
+                    <div className="bg-teal-300 w-8 h-8 rounded-full"> </div>
+                  </div>
+                  <div className="flex justify-center  items-center">
+                    <div>
+                      <div className="font-bold  text-gray-800 text-[0.7rem]">
+                        {answer.user}
+                      </div>
+                      <span className="text-[13px] text-sm">
+                        {answer.content}
+                      </span>
+                      <span className="text-xs font-normal text-gray-700">
+                        {answer.date}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </Fragment>
+            ))}
+          </div>
+        </>
+      ) : null}
     </Layout>
   );
 };
 
 export default CommunityPost;
+
+const answers = [
+  {
+    id: 1,
+    content: "책이 좋다해도...4개월동안 연락도 못하고 인터넷도 안되는건데...",
+    user: "리쭈",
+    date: "1분 전",
+    avatar: "",
+  },
+  {
+    id: 2,
+    content: "인터넷 안되는건 좀 너무 외로워요ㅠ",
+    user: "뭐랄까...",
+    date: "8분 전",
+  },
+  {
+    id: 3,
+    content: "사개월동안 취미생활할거 다 가져가야 겠군요오.. ",
+    user: "익명721",
+    date: "28분 전",
+  },
+  {
+    id: 4,
+    content: "산불나면 죽을수도 있는거죠??ㅠ",
+    user: "널 너무 모르고",
+    date: "1분 전",
+  },
+  {
+    id: 5,
+    content: "자칫하면 곰 비상식량 되는거 아닌가요.. ",
+    user: "H위얼V",
+    date: "38분 전",
+  },
+  {
+    id: 6,
+    content: "간이 화장실이 좀 걸리긴 한데.. 일단 시켜줘봐요 ",
+    user: "Brian",
+    date: "25분 전",
+  },
+  {
+    id: 7,
+    content: "헬기 태워주세요",
+    user: "*XIUMIN*",
+    date: "17분 전",
+  },
+  {
+    id: 8,
+    content: "으악 그냥 지금 회사 다닐래용",
+    user: "Nury",
+    date: "12분 전",
+  },
+];
 
 const articles = [
   {
